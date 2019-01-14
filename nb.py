@@ -10,7 +10,8 @@ def suit(book):
     words = [words[i].replace('.', '').replace(',', '').replace('.', '').replace('"', '').replace("'", '')
                  .replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('!', '').replace('…', '')
                  .replace('“', '').replace('”', '').replace('—', '').replace('(', '').replace(')', '')
-                 .replace('/', '').replace('—', '') for i in range(len(words))]
+                 .replace('/', '').replace('—', '').replace('’', '').replace('‘', '').replace('*', '')
+                 .replace('%', '').replace('#', '').replace('=', '').replace('+', '') for i in range(len(words))]
 
     return words
 
@@ -41,8 +42,15 @@ def train(*books):
 def test(trained_dict, book_to_predict, n_sample):
     f = frequencies(book_to_predict)
     sample = np.random.choice(list(f.keys()), n_sample)
-    posteriori = {}
 
+    print('the sample of words taken from', book_to_predict, 'is: ')
+    print(sample)
+    print()
+    max_words_in_book = 1
+    for key in trained_dict.keys():
+        max_words_in_book = max(trained_dict[key][1], max_words_in_book)
+
+    posteriori = {}
     for key in trained_dict.keys():
         book_dict = trained_dict[key][0]
         total_words = trained_dict[key][1]
@@ -51,8 +59,8 @@ def test(trained_dict, book_to_predict, n_sample):
             if word in book_dict:
                 fi = book_dict[word] / total_words
                 prob.append(fi)
-            else:  # This seems to be a very bad approximation to this problem, since cn1 has 4 times more words
-                prob.append(1 / total_words)  # than hp1, an alternative must the found
+            else:
+                prob.append(1 / max_words_in_book)  # this is by far a best remedy for the problem we had in past.
 
         posteriori[key] = np.prod(prob)
 
@@ -65,19 +73,15 @@ def test(trained_dict, book_to_predict, n_sample):
 
     print('the author of ', book_to_predict, 'is more likely to be the author of', max_prob_element,
           'with a probability of ', posteriori[max_prob_element])
+    print()
+    print()
 
     return posteriori
 
 
 if __name__ == '__main__':
     model = train(*['hp1.txt', 'cn1.txt', 'lr1.txt'])
-    test(model, 'hp2.txt', 10)
-    test(model, 'cn2.txt', 10)
-    test(model, 'lr2.txt', 10)
+    test(model, 'hp2.txt', 60)
+    test(model, 'cn2.txt', 60)
+    test(model, 'lr2.txt', 60)
 
-
-# if you increase n_sample you'll get even worst results... needs to found a better approach.
-# because the fewer-words books has advantage
-# hp1 has 78670 "unique" words
-# cn1 has 322710 "unique" words
-# lr1 has 195809 "unique" words
