@@ -3,7 +3,7 @@ import operator
 
 
 def suit(book):
-    text = open(book, 'r')
+    text = open(f'books/{book}', 'r')
     text = text.read().lower()
 
     words = text.split()
@@ -77,6 +77,7 @@ if __name__ == '__main__':
 
 
 # if you increase n_sample you'll get even worst results... needs to found a better approach.
+# because the fewer-words books has advantage
 # hp1 has 78670 "unique" words
 # cn1 has 322710 "unique" words
 # lr1 has 195809 "unique" words
