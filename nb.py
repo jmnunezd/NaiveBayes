@@ -9,7 +9,8 @@ def suit(book):
     words = text.split()
     words = [words[i].replace('.', '').replace(',', '').replace('.', '').replace('"', '').replace("'", '')
                  .replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('!', '').replace('…', '')
-                 .replace('“', '').replace('”', '').replace('—', '') for i in range(len(words))]
+                 .replace('“', '').replace('”', '').replace('—', '').replace('(', '').replace(')', '')
+                 .replace('/', '').replace('—', '') for i in range(len(words))]
 
     return words
 
@@ -69,9 +70,13 @@ def test(trained_dict, book_to_predict, n_sample):
 
 
 if __name__ == '__main__':
-    model = train(*['hp1.txt', 'cn1.txt'])
+    model = train(*['hp1.txt', 'cn1.txt', 'lr1.txt'])
     test(model, 'hp2.txt', 10)
     test(model, 'cn2.txt', 10)
+    test(model, 'lr2.txt', 10)
 
 
-# if you increase n_sample you'll get even worst results... needs to be fix
+# if you increase n_sample you'll get even worst results... needs to found a better approach.
+# hp1 has 78670 "unique" words
+# cn1 has 322710 "unique" words
+# lr1 has 195809 "unique" words
