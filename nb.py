@@ -8,10 +8,11 @@ def suit(book):
 
     words = text.split()
     words = [words[i].replace('.', '').replace(',', '').replace('.', '').replace('"', '').replace("'", '')
-                 .replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('!', '').replace('…', '')
-                 .replace('“', '').replace('”', '').replace('—', '').replace('(', '').replace(')', '')
-                 .replace('/', '').replace('—', '').replace('’', '').replace('‘', '').replace('*', '')
-                 .replace('%', '').replace('#', '').replace('=', '').replace('+', '') for i in range(len(words))]
+                     .replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('!', '')
+                     .replace('…', '').replace('“', '').replace('”', '').replace('—', '').replace('(', '')
+                     .replace(')', '').replace('/', '').replace('—', '').replace('’', '').replace('‘', '')
+                     .replace('*', '').replace('%', '').replace('#', '').replace('=', '').replace('+', '')
+             for i in range(len(words))]
 
     return words
 
@@ -48,7 +49,7 @@ def test(trained_dict, book_to_predict, n_sample):
     print()
     max_words_in_book = 1
     for key in trained_dict.keys():
-        max_words_in_book = max(trained_dict[key][1], max_words_in_book)
+        max_words_in_book = 0.25 * max(trained_dict[key][1], max_words_in_book)
 
     posteriori = {}
     for key in trained_dict.keys():
@@ -60,8 +61,7 @@ def test(trained_dict, book_to_predict, n_sample):
                 fi = book_dict[word] / total_words
                 prob.append(fi)
             else:
-                prob.append(1 / max_words_in_book)  # this is by far a best remedy for the problem we had in past.
-
+                prob.append(1 / max_words_in_book)
         posteriori[key] = np.prod(prob)
 
     add = sum(posteriori.values())
@@ -71,8 +71,7 @@ def test(trained_dict, book_to_predict, n_sample):
 
     max_prob_element = max(posteriori.items(), key=operator.itemgetter(1))[0]
 
-    print('the author of ', book_to_predict, 'is more likely to be the author of', max_prob_element,
-          'with a probability of ', posteriori[max_prob_element])
+    print('the author of ', book_to_predict, 'is more likely to be the author of', max_prob_element)
     print()
     print()
 
@@ -81,7 +80,8 @@ def test(trained_dict, book_to_predict, n_sample):
 
 if __name__ == '__main__':
     model = train(*['hp1.txt', 'cn1.txt', 'lr1.txt'])
-    test(model, 'hp2.txt', 60)
-    test(model, 'cn2.txt', 60)
-    test(model, 'lr2.txt', 60)
+    test(model, 'hp2.txt', 100)
+    test(model, 'cn2.txt', 100)
+    test(model, 'lr2.txt', 100)
+    test(model, 'cb.txt', 100)
 
