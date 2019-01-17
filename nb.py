@@ -107,7 +107,7 @@ def test(trained_dict, book_to_predict, n_sample):
 
 if __name__ == '__main__':
     model = train(*['hp1.txt', 'cn1.txt', 'lr1.txt'])
-    test(model, 'hp2.txt', 50)
-    test(model, 'cn2.txt', 50)
-    test(model, 'lr2.txt', 50)
-    test(model, 'cb.txt', 50)
+    test(model, 'hp2.txt', 10)
+    test(model, 'cn2.txt', 10)
+    test(model, 'lr2.txt', 10)
+    test(model, 'cb.txt', 10)

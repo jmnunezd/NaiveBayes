@@ -21,4 +21,19 @@ other books.
   the script is not plain to have in the model more than 1 book per author, if you want to train the 
   model with more that one book per author, try to join the corresponding txt files in just one. it may work
   
- 
+  Notice that if the number of words of a book increases, less reward that book will have when a new word is tested, 
+  because if the word is in the book it's probability will be lower and also if the word is not in the book you punish
+  all the books equally in that scenario. I have trie changing the test function:
+    * Punish every book proportional to the size of it's book: result in a bias that benefits the shorter books
+    * Punish every book equally to the size of the biggest book: result in a bias that benefits the shorter books
+    
+  Every spins around this: * in what extent we should reward a book when it hit a word? 
+                           * in what extent we should punish a book when it doesn't hit a word?
+  
+  So how to fix this bias when you wan't to put in the model books of different number of words? 
+  I still don't find a good resolution to this problem. Stay tune.
+  
+  nevertheless this script should work very well with book of similar length.
+    
+  
+   
