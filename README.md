@@ -37,3 +37,5 @@ other books.
     
   
    
+   
+for future me: https://skymind.ai/wiki/bagofwords-tf-idf I'll try to implement that
